@@ -101,7 +101,7 @@ const App = () => {
               Create Google Meet
             </button>
             {meetLink && (
-              <div>
+              <div className='mt-4'>
                 <Typography variant="body1">
                   Join the meeting: <a href={meetLink}>{meetLink}</a>
                 </Typography>
