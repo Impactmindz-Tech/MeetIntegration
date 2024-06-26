@@ -93,7 +93,7 @@ const App = () => {
              
              </div>
            ):(     <div>
-            <button className='btn custom_btn ms-3' onClick={handleSignoutClick}>
+            <button className='btn custom_btn me-5' onClick={handleSignoutClick}>
               Sign Out
             </button>
    
