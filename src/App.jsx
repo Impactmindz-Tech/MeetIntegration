@@ -74,39 +74,49 @@ const App = () => {
   };
 
   return (
-    <Container>
-      {!isSignedIn ? (
-        <Button variant="contained" color="primary" onClick={handleAuthClick}>
-          Sign In
-        </Button>
-      ) : (
-        <div>
-          <Button variant="contained" color="secondary" onClick={handleSignoutClick}>
-            Sign Out
-          </Button>
-          <TextField
-            label="Duration (minutes)"
-            type="number"
-            value={duration}
-            onChange={(e) => setDuration(Number(e.target.value))}
-            margin="normal"
-          />
-          <Button variant="contained" color="primary" onClick={createMeet}>
-            Create Google Meet
-          </Button>
-          {meetLink && (
-            <div>
-              <Typography variant="body1">
-                Join the meeting: <a href={meetLink}>{meetLink}</a>
-              </Typography>
-              <Button variant="contained" color="secondary" onClick={endMeet}>
-                End Meeting
-              </Button>
+
+    <> 
+    <section>
+      <div className="container custom_height">
+        <div className="row justify-content-center">
+          <div className="col-lg-5 text-center container_custom">
+            <div >
+              <h1>Let's Have  A Meeting</h1>
+
             </div>
-          )}
+           {!isSignedIn?(
+             <div className='mt-4'>
+             <button className='btn custom_btn' onClick={handleAuthClick}>
+               SIGN IN
+
+             </button>
+             
+             </div>
+           ):(     <div>
+            <button className='btn custom_btn' onClick={handleSignoutClick}>
+              Sign Out
+            </button>
+   
+            <button className='btn custom_btn' onClick={createMeet}>
+              Create Google Meet
+            </button>
+            {meetLink && (
+              <div>
+                <Typography variant="body1">
+                  Join the meeting: <a href={meetLink}>{meetLink}</a>
+                </Typography>
+              
+              </div>
+            )}
+          </div>)}
+          </div>
         </div>
-      )}
-    </Container>
+      </div>
+    </section>
+    
+   
+    </>
+
   );
 };
 

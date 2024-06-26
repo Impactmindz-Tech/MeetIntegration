@@ -1,7 +1,22 @@
-.cutom_btn{
+.custom_btn{
   background-color: #1976D2;
   color: white;
   padding:6px 20px;
   border-radius: 3px;
+  box-shadow: 0px 0px 3px  grey;
   
+}
+.custom_btn:hover{
+  background-color: #1986D2;
+  color: white;
+}
+.container_custom{
+  margin-top: 20%;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px gray;
+
+}
+.custom_height{
+  height: 100vh;
 }
