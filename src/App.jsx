@@ -29,6 +29,7 @@ const App = () => {
         if (diff <= 0) {
           clearInterval(interval);
           setCountdown('Meeting is starting now!');
+          createMeet();
         } else {
           setCountdown(`${Math.floor(diff / 60000)} minutes ${Math.floor((diff % 60000) / 1000)} seconds remaining`);
         }
@@ -130,9 +131,6 @@ const App = () => {
                     onChange={(e) => setDuration(Number(e.target.value))}
                   />
                 </div>
-                <button className='btn custom_btn mt-4' onClick={createMeet}>
-                  Create Google Meet
-                </button>
                 {countdown && (
                   <div className='mt-4'>
                     <Typography variant="body1">
