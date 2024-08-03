@@ -14,6 +14,9 @@ const App = () => {
 
   const updateSignInStatus = (isSignedIn) => {
     setIsSignedIn(isSignedIn);
+    if (!isSignedIn) {
+      resetState();
+    }
   };
 
   useEffect(() => {
@@ -80,8 +83,10 @@ const App = () => {
   const endMeet = () => {
     if (eventId) {
       deleteGoogleMeet(eventId).then(() => {
-        resetState();
+        handleSignoutClick();
       });
+    } else {
+      handleSignoutClick();
     }
   };
 
@@ -93,6 +98,8 @@ const App = () => {
       clearTimeout(timerId);
       setTimerId(null);
     }
+    setStartTime('');
+    setDuration(30); // Reset duration to default
   };
 
   return (
