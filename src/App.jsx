@@ -11,13 +11,10 @@ const App = () => {
   const [startTime, setStartTime] = useState('');
   const [timerId, setTimerId] = useState(null);
   const [countdown, setCountdown] = useState('');
-  const [meetWindow, setMeetWindow] = useState(null); // Reference to the opened meet window
+  const [meetWindow, setMeetWindow] = useState(null);
 
   const updateSignInStatus = (isSignedIn) => {
     setIsSignedIn(isSignedIn);
-    if (!isSignedIn) {
-      resetState();
-    }
   };
 
   useEffect(() => {
@@ -30,12 +27,16 @@ const App = () => {
         const now = moment();
         const start = moment(startTime);
         const diff = start.diff(now);
+
         if (diff <= 0) {
           clearInterval(interval);
           setCountdown('Meeting is starting now!');
           createMeet();
         } else {
-          setCountdown(`${Math.floor(diff / 60000)} minutes ${Math.floor((diff % 60000) / 1000)} seconds remaining`);
+          const hours = Math.floor(diff / 3600000);
+          const minutes = Math.floor((diff % 3600000) / 60000);
+          const seconds = Math.floor((diff % 60000) / 1000);
+          setCountdown(`${hours} hours ${minutes} minutes ${seconds} seconds remaining`);
         }
       }, 1000);
       return () => clearInterval(interval);
@@ -72,7 +73,7 @@ const App = () => {
       setMeetLink(meetUrl);
       setEventId(response.result.id);
 
-      // Open the meeting in a new tab and store the reference
+      // Open the meeting in a new tab
       const newWindow = window.open(meetUrl, '_blank');
       setMeetWindow(newWindow);
 
@@ -88,16 +89,11 @@ const App = () => {
   const endMeet = () => {
     if (eventId) {
       deleteGoogleMeet(eventId).then(() => {
-        if (meetWindow) {
-          meetWindow.close(); // Close the opened meet window
-        }
-        handleSignoutClick();
+        resetState();
       });
-    } else {
-      if (meetWindow) {
-        meetWindow.close(); // Close the opened meet window
-      }
-      handleSignoutClick();
+    }
+    if (meetWindow) {
+      meetWindow.close();
     }
   };
 
@@ -109,8 +105,6 @@ const App = () => {
       clearTimeout(timerId);
       setTimerId(null);
     }
-    setStartTime('');
-    setDuration(30); // Reset duration to default
   };
 
   return (
@@ -159,7 +153,7 @@ const App = () => {
                 {meetLink && (
                   <div className='mt-4'>
                     <Typography variant="body1">
-                      Join the meeting: <a href={meetLink} target="_blank" rel="noopener noreferrer">{meetLink}</a>
+                      Join the meeting: <a href={meetLink}>{meetLink}</a>
                     </Typography>
                   </div>
                 )}
