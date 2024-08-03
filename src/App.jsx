@@ -11,6 +11,7 @@ const App = () => {
   const [startTime, setStartTime] = useState('');
   const [timerId, setTimerId] = useState(null);
   const [countdown, setCountdown] = useState('');
+  const [meetWindow, setMeetWindow] = useState(null); // Reference to the opened meet window
 
   const updateSignInStatus = (isSignedIn) => {
     setIsSignedIn(isSignedIn);
@@ -71,6 +72,10 @@ const App = () => {
       setMeetLink(meetUrl);
       setEventId(response.result.id);
 
+      // Open the meeting in a new tab and store the reference
+      const newWindow = window.open(meetUrl, '_blank');
+      setMeetWindow(newWindow);
+
       // Schedule the end of the meeting
       const timer = setTimeout(() => {
         endMeet();
@@ -83,9 +88,15 @@ const App = () => {
   const endMeet = () => {
     if (eventId) {
       deleteGoogleMeet(eventId).then(() => {
+        if (meetWindow) {
+          meetWindow.close(); // Close the opened meet window
+        }
         handleSignoutClick();
       });
     } else {
+      if (meetWindow) {
+        meetWindow.close(); // Close the opened meet window
+      }
       handleSignoutClick();
     }
   };
@@ -148,7 +159,7 @@ const App = () => {
                 {meetLink && (
                   <div className='mt-4'>
                     <Typography variant="body1">
-                      Join the meeting: <a href={meetLink}>{meetLink}</a>
+                      Join the meeting: <a href={meetLink} target="_blank" rel="noopener noreferrer">{meetLink}</a>
                     </Typography>
                   </div>
                 )}
